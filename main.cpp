@@ -10,7 +10,7 @@ int main()
     game instantiate;
     double array_2[15][15];
 
-    int length = 6;
+    int length = 14;
 
     int MAX =  length * length;
 
@@ -20,12 +20,29 @@ int main()
     while(moves < MAX)
     {
         instantiate.Algae1(length);
-        instantiate.CheckWin(length);
+        if(instantiate.CheckWin(length))
+        {
+          cout << "Player1 won" << endl;
+          break;
+        }
         moves++;
         instantiate.Algae2(length);
-        instantiate.CheckWin(length);
+
+        if(instantiate.CheckWin(length))
+        {
+          cout << "Player2 won" << endl;
+          break;
+
+        }
         moves++;
     }
+
+    if(!instantiate.CheckWin(length))
+        {
+          cout << "Game Drawn" << endl;
+
+        }
+
 
     cout << "\n";
     instantiate.ShowBoard(array_2,length);

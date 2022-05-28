@@ -25,6 +25,11 @@ class game
       //int Cols();
       void setRow(int r);
       void setCol(int c);
+      void setState(bool w);
+      bool getState();
+      bool RwinCheck(int score1,int score2,int len);
+      bool CwinCheck(int score1,int score2, int len);
+      bool diagCheck(int score1,int score2, int len);
 
 
   private:     //These are private attributes. They can only be accessed using the get and set functions
@@ -34,8 +39,7 @@ class game
       int colPlay;
       int rowCheck;    //storage for a row
       int colCheck;    //storage for a column
-
-
+      bool state;      //whether or not we have a winner
 
 
 };
