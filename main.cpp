@@ -1,52 +1,97 @@
 // <2382971>
 
 #include <iostream>
+#include <fstream>
 #include "game.h"
 
 using namespace std;
 
-int main()
+void process(int gamesize, int loops)
 {
-    game instantiate;
-    double array_2[15][15];
+ int loop = 0;
+ int alg1wins= 0;
+ int alg2wins =0;
+ ofstream dataOut("output.txt");
 
-    int length = 14;
+ while (loop <= loops){
+ game gameboard;
 
-    int MAX =  length * length;
+    dataOut << "size=" << gamesize << endl;
 
-    instantiate.CreateBoard(array_2, length);
+    int max_moves =  gamesize * gamesize;
+
+    gameboard.CreateBoard(gamesize);
 
     int moves = 0;
-    while(moves < MAX)
+    while(moves < max_moves)
     {
-        instantiate.Algae1(length);
-        if(instantiate.CheckWin(length))
+        gameboard.Alg1(gamesize);
+
+        dataOut << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg1" << endl;
+
+        if(gameboard.CheckWin(gamesize))
         {
-          cout << "Player1 won" << endl;
+
+          alg1wins++;
+          dataOut << "win=alg1" << endl;
           break;
         }
         moves++;
-        instantiate.Algae2(length);
 
-        if(instantiate.CheckWin(length))
+        gameboard.Alg2(gamesize);
+
+        dataOut << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg2" << endl;
+
+        if(gameboard.CheckWin(gamesize))
         {
-          cout << "Player2 won" << endl;
-          break;
+          alg2wins++;
+          dataOut << "win=alg2" << endl;
 
+          break;
         }
         moves++;
     }
 
-    if(!instantiate.CheckWin(length))
+    if(!gameboard.CheckWin(gamesize))
         {
-          cout << "Game Drawn" << endl;
-
+          dataOut << "Game Drawn" << endl;
         }
 
-
     cout << "\n";
-    instantiate.ShowBoard(array_2,length);
+    dataOut << "\n";
+    gameboard.ShowBoard(gamesize);
 
+    loop++;
+ }
+
+    dataOut <<"\n";
+    dataOut << "wins alg1=" << alg1wins;
+    dataOut << "wins alg2=" << alg2wins;
+
+    dataOut.close();
+
+}
+
+
+int main()
+{
+    ifstream dataIn("input.txt");
+
+    int sizeIn;
+    int loops =0;
+
+    while(dataIn >> sizeIn)
+    {
+         while(dataIn >> sizeIn)
+         {
+            loops++;
+         }
+
+         process(sizeIn,loops);
+         cout << "\n";
+
+    }
+    dataIn.close();
 
     return 0;
 }
