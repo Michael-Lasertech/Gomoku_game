@@ -14,11 +14,11 @@ class game
       game();
 
       void CreateBoard(int len);     //Used to create a board for the game
-      void ShowBoard(int len);
-      void Alg1(int len, std::ofstream &dataOut);
-      void Alg2(int len);
+      void ShowBoard();
+      void Alg1( std::ofstream &dataOut);
+      void Alg2();
 
-      bool CheckWin (int len);
+      bool CheckWin ();
 
       //void Alg3(int len);
 
@@ -38,10 +38,10 @@ class game
       int colCheck;    //storage for a column
       int gamesize;
 
-      bool Row_Win(int len);
-      bool Col_Win(int len);
-      bool Forward_diagCheck(int len);
-      bool Backward_diagCheck(int len);
+      bool Row_Win();
+      bool Col_Win();
+      bool Forward_diagCheck();
+      bool Backward_diagCheck();
 
 
 };

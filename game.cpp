@@ -54,11 +54,11 @@ using namespace std;
      }
 
 
-     void game::ShowBoard(int len)
+     void game::ShowBoard()
      {
-         for(int i = 0; i < len; i++)
+         for(int i = 0; i < gamesize; i++)
          {
-            for(int j =0; j < len; j++)
+            for(int j =0; j < gamesize; j++)
             {
              cout << game :: board_2d[i][j] << " ";
 
@@ -69,13 +69,13 @@ using namespace std;
      }
 
 
-        void game::Alg1(int len, std :: ofstream &dataOut)
+        void game::Alg1( std :: ofstream &dataOut)
         {   srand(time(0));
             bool cellSet = false;
             while (!cellSet)
          {
-            int i = rand() % len;
-            int j = rand() % len;
+            int i = rand() % gamesize;
+            int j = rand() % gamesize;
 
             if (game::board_2d[i][j] == 0)
             {
@@ -91,7 +91,7 @@ using namespace std;
 
 
 
-      void game::Alg2(int len)
+      void game::Alg2()
       {   srand(time(0));
           int approach = 1;
           int choice = 0;
@@ -104,7 +104,7 @@ using namespace std;
 
           {
 
-          while(choice >= len)
+          while(choice >= gamesize)
            {
             choice = 0;
 
@@ -121,8 +121,8 @@ using namespace std;
              case 1:
              {
 
-             i = rand() % len;
-             j = rand() % len;
+             i = rand() % gamesize;
+             j = rand() % gamesize;
 
             if (game::board_2d[i][j] == 0)
             {
@@ -139,7 +139,7 @@ using namespace std;
 
              case 2:
              {
-             j = rand() % len;
+             j = rand() % gamesize;
 
            if (game::board_2d[choice][j] == 0)
             {
@@ -156,7 +156,7 @@ using namespace std;
 
              case 3:
                {
-                i = rand() % len;
+                i = rand() % gamesize;
 
                if (game::board_2d[i][choice] == 0)
               {
@@ -177,18 +177,18 @@ using namespace std;
           }
       }
 
-//     void game::Alg3(int len)
+//     void game::Alg3(int gamesize)
 //     {
 //        {
 //         srand(time(0));
 //         int i = 0;
-//         int j = rand() % len;
+//         int j = rand() % gamesize;
 //         bool cellSet = false;
 //         while (!cellSet)
 //         {
-//           while(i >= len)
+//           while(i >= gamesize)
 //           {
-//             j = rand() % len;
+//             j = rand() % gamesize;
 //             i = 0;
 //           }
 //
@@ -210,14 +210,14 @@ using namespace std;
 
 
 
-      bool game::Row_Win(int len){
+      bool game::Row_Win(){
           //5 in a row check
         int score1 =0;
         int score2 =0;
         int p1 = score1;
         int p2 = score2;
 
-          for(int i = 0; i < len ; i++)
+          for(int i = 0; i < gamesize ; i++)
             {
 
                 if (game::board_2d[rowCheck][i] == 1)
@@ -257,13 +257,13 @@ using namespace std;
         }
 
 
-        bool game::Col_Win(int len)
+        bool game::Col_Win()
         {
            int score1 =0;
            int score2 =0;
 
             // 5 in a column
-            for(int i = 0; i < len ; i++)
+            for(int i = 0; i < gamesize ; i++)
             {
                if (game::board_2d[i][colCheck] == 1)
                 {
@@ -293,7 +293,7 @@ using namespace std;
         }
 
 
-        bool game::Forward_diagCheck(int len)
+        bool game::Forward_diagCheck()
         {
              int score1 =0;
              int score2 =0;
@@ -317,7 +317,7 @@ using namespace std;
                 }
 
              //finding end position.
-             while(eRowF < len && eColF < len)
+             while(eRowF < gamesize && eColF < gamesize)
                {
                    eRowF++;
                    eColF++;
@@ -358,7 +358,7 @@ using namespace std;
             }
 
 
-            bool game::Backward_diagCheck(int len)
+            bool game::Backward_diagCheck()
             {
              int score1 =0;
              int score2 =0;
@@ -375,7 +375,7 @@ using namespace std;
              eColB = colCheck;
 
              //checking back diagonal
-             while(sRowB > 0 && sColB < len)
+             while(sRowB > 0 && sColB < gamesize)
                 {
                     sRowB--;  //to reach start row, decrement
                     sColB++;  //increment coloumns
@@ -383,7 +383,7 @@ using namespace std;
                 }
 
              //finding end position.
-             while(eRowB < len && eColB > 0)
+             while(eRowB < gamesize && eColB > 0)
              {
                    eRowB++;
                    eColB--;
@@ -426,21 +426,21 @@ using namespace std;
                 return(score1 >= 5 || score2 >= 5);
             }
 
-        bool game::CheckWin(int len)
+        bool game::CheckWin()
         {
-          if(Row_Win(len))
+          if(Row_Win())
             {
                 return true;
             }
-          else if(Col_Win(len))
+          else if(Col_Win())
             {
                 return true;
             }
-          else if(Forward_diagCheck(len))
+          else if(Forward_diagCheck())
             {
                 return true;
             }
-          else if(Backward_diagCheck(len))
+          else if(Backward_diagCheck())
             {
                 return true;
             }

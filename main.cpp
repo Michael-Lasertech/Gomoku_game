@@ -30,11 +30,11 @@ int main()
     int moves = 0;
     while(moves < max_moves)
     {
-        gameboard.Alg1(gamesize, dataOut);
+        gameboard.Alg1( dataOut);
 
         //dataOut << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg1" << endl;
 
-        if(gameboard.CheckWin(gamesize))
+        if(gameboard.CheckWin())
         {
 
           alg1wins++;
@@ -44,11 +44,11 @@ int main()
         }
         moves++;
 
-        gameboard.Alg2(gamesize);
+        gameboard.Alg2();
 
         dataOut << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg2" << endl;
 
-        if(gameboard.CheckWin(gamesize))
+        if(gameboard.CheckWin())
         {
           alg2wins++;
           dataOut << "win=alg2" << endl;
@@ -59,13 +59,13 @@ int main()
         moves++;
     }
 
-    if(!gameboard.CheckWin(gamesize))
+    if(!gameboard.CheckWin())
         {
           dataOut << "Game Drawn" << endl;
         }
 
     cout << "\n";
-    gameboard.ShowBoard(gamesize);
+    gameboard.ShowBoard();
     cout << "\n";
 
     }
