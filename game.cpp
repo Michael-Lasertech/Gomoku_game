@@ -12,92 +12,72 @@ using namespace std;
 
      game :: game()
      {
-         game::rowPlay = 1;
-         game::colPlay = 1;
+
      }
 
-
-    void game::setRow(int r)
-    {
-       rowCheck = r;
-    }
-
-
-    void game::setCol(int c)
-    {
-       colCheck = c;
-    }
-
-    int game::getRow()
-    {
-       int r = rowCheck;
-       return r;
-    }
-
-    int game::getCol()
-    {
-       int c = colCheck;
-       return c;
-    }
 
      void game::CreateBoard(int len)
      {
          game::gamesize = len;
-         for(int i = 0; i < len; i++)
+         for(int r = 0; r < len; r++)
          {
-            for(int j =0; j < len; j++)
+            for(int c =0; c < len; c++)
             {
-              game :: board_2d[i][j] = 0;
+              game :: board_2d[r][c] = 0;
             }
          }
 
      }
 
 
-     void game::ShowBoard()
+     void game::ShowBoard(std :: ofstream &dataOut)
      {
-         for(int i = 0; i < gamesize; i++)
+         for(int r = 0; r < gamesize; r++)
          {
-            for(int j =0; j < gamesize; j++)
+            for(int c =0; c < gamesize; c++)
             {
-             cout << game :: board_2d[i][j] << " ";
+             cout << game :: board_2d[r][c] << " ";
+             //dataOut << game :: board_2d[r][c] << " ";
 
             }
+            //dataOut << "\n";
 
             cout << " " << endl;
          }
      }
 
 
-        void game::Alg1( std :: ofstream &dataOut)
-        {   srand(time(0));
+        bool game::Alg1( std :: ofstream &dataOut)
+        {
+            srand(time(0));
+            int r = 0;
+            int c = 0;
             bool cellSet = false;
             while (!cellSet)
          {
-            int i = rand() % gamesize;
-            int j = rand() % gamesize;
+            int r = rand() % gamesize;
+            int c = rand() % gamesize;
 
-            if (game::board_2d[i][j] == 0)
+            if (game::board_2d[r][c] == 0)
             {
-                game::board_2d[i][j] = 1;
-                setRow(i);
-                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
-                dataOut << "did data out r" << getRow() << "c" << getCol() << " Alg1" << endl;
+                game::board_2d[r][c] = 1;
+                dataOut << "r" << r << "c" << c << " Alg1" << endl;
 
                 cellSet = true;
             }
           }
+          return CheckWin(r,c);
         }
 
 
 
-      void game::Alg2()
+      bool game::Alg2(std :: ofstream &dataOut)
       {   srand(time(0));
           int approach = 1;
           int choice = 0;
           int moves = 0;
-          int i;
-          int j;
+          int r ;
+          int c;
 
           bool cellSet = false;
           while (!cellSet)
@@ -121,34 +101,36 @@ using namespace std;
              case 1:
              {
 
-             i = rand() % gamesize;
-             j = rand() % gamesize;
+             r = rand() % gamesize;
+             c = rand() % gamesize;
 
-            if (game::board_2d[i][j] == 0)
+            if (game::board_2d[r][c] == 0)
             {
-                game::board_2d[i][j] = 2;
-                setRow(i);
-                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+                game::board_2d[r][c] = 2;
+
+                dataOut << "r" << r << "c" << c << " Alg2" << endl;
 
                 cellSet = true;
             }
-
              moves++;
+
              break;
              }
 
              case 2:
              {
-             j = rand() % gamesize;
+             c = rand() % gamesize;
 
-           if (game::board_2d[choice][j] == 0)
-            {
-                game::board_2d[choice][j] = 2;
-                setRow(choice);
-                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+            if (game::board_2d[choice][c] == 0)
+             {
+                game::board_2d[choice][c] = 2;
+                //setRow(choice);
+                r =choice;
+                //setCol(c); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+                dataOut << "r" << r << "c" << c << " Alg2" << endl;
 
                 cellSet = true;
-            }
+             }
 
              moves++;
              break;
@@ -156,16 +138,18 @@ using namespace std;
 
              case 3:
                {
-                i = rand() % gamesize;
+                r = rand() % gamesize;
 
-               if (game::board_2d[i][choice] == 0)
+               if (game::board_2d[r][choice] == 0)
               {
-                game::board_2d[i][choice] = 2;
-                setRow(i);
-                setCol(choice); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+                game::board_2d[r][choice] = 2;
+
+                c = choice;
+                dataOut << "r" << r << "c" << c << " Alg2" << endl;
 
                 cellSet = true;
                }
+
              moves++;
              break;
                }
@@ -175,89 +159,47 @@ using namespace std;
             choice++;
 
           }
+          return CheckWin(r,c);
       }
 
-//     void game::Alg3(int gamesize)
-//     {
-//        {
-//         srand(time(0));
-//         int i = 0;
-//         int j = rand() % gamesize;
-//         bool cellSet = false;
-//         while (!cellSet)
-//         {
-//           while(i >= gamesize)
-//           {
-//             j = rand() % gamesize;
-//             i = 0;
-//           }
-//
-//           if (game::board_2d[i][j] == 0)
-//            {
-//                game::board_2d[i][j] = 2;
-//                setRow(i);
-//                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
-//
-//                cellSet = true;
-//            }
-//            i++;
-//
-//          }
-//        }
-//     }
 
 
-
-
-
-      bool game::Row_Win(){
+      bool game::Row_Win(int row){
           //5 in a row check
         int score1 =0;
         int score2 =0;
-        int p1 = score1;
-        int p2 = score2;
 
           for(int i = 0; i < gamesize ; i++)
             {
 
-                if (game::board_2d[rowCheck][i] == 1)
+                if (game::board_2d[row][i] == 1)
                 {
-                    p1++;
-                    p2 =0;
+                    score1++;
+                    score2 =0;
 
                 }
                else
-                     if (game::board_2d[rowCheck][i] == 2)
+                     if (game::board_2d[row][i] == 2)
                 {
-                    p2++;
-                    p1 = 0;
+                    score2++;
+                    score1 = 0;
                 }
                 else
-                     if (game::board_2d[rowCheck][i] == 0)
+                     if (game::board_2d[row][i] == 0)
                 {
-                    p2 = 0;
-                    p1 = 0;
+                    score2 = 0;
+                    score1 = 0;
                 }
-
-                if(p1 >= 5 || p2 >= 5)
+                    if(score1 >= 5 || score2 >= 5)
                     {
-                       score1 = p1;
-                       score2 = p2;
-                       break;
+                      return true;
                     }
-            }
-            if(score1 >= 5 || score2 >= 5)
-                {
-                return true;
-                }
-                else
-                {
-                return  false;
-                }
+
+            }     return false;
         }
 
 
-        bool game::Col_Win()
+        bool game::Col_Win(int col)
         {
            int score1 =0;
            int score2 =0;
@@ -265,20 +207,20 @@ using namespace std;
             // 5 in a column
             for(int i = 0; i < gamesize ; i++)
             {
-               if (game::board_2d[i][colCheck] == 1)
+               if (game::board_2d[i][col] == 1)
                 {
                     score1++;
                     score2 = 0;
                 }
 
                else
-                     if (game::board_2d[i][colCheck] == 2)
+                     if (game::board_2d[i][col] == 2)
                 {
                     score2++;
                      score1 = 0;
                 }
                 else
-                     if (game::board_2d[i][colCheck] == 0)
+                     if (game::board_2d[i][col] == 0)
                 {
                     score2 =0;
                     score1 = 0;
@@ -293,105 +235,94 @@ using namespace std;
         }
 
 
-        bool game::Forward_diagCheck()
+        bool game::Forward_diagCheck(int row,int col)
         {
              int score1 =0;
              int score2 =0;
-             int p1 = score1;
-             int p2 = score2;
+
             //Diagonal Checks
-             int sRowF, sColF;  //The starting row and column of the forward diagonal check
-             int eRowF, eColF;  //The ending row and column of the forward diagonal check
 
-             sRowF = rowCheck;
-             sColF = colCheck;
+             int startRow = row;
+             int startCol = col;
 
-             eRowF = rowCheck;
-             eColF = colCheck;
+             int endRow = row;
+             int endCol= col;
 
              //initialised to a starting position. Now we need to find the actual diagonal start position on the board
-             while(sRowF > 0 && sColF > 0)
+             while(startRow > 0 && startCol > 0)
                 {
-                    sRowF--;
-                    sColF--;
+                    startRow--;
+                    startCol--;
                 }
 
              //finding end position.
-             while(eRowF < gamesize && eColF < gamesize)
+             while(endRow < gamesize && endCol < gamesize)
                {
-                   eRowF++;
-                   eColF++;
+                   endRow++;
+                   endCol++;
                }
 
             //using i so as to not overwrite ending row
-            int tempCol = sColF;
-            for(int i = sRowF; i < eRowF; i++)
+            int tempCol = startCol;
+            for(int i = startRow; i <= endRow; i++)
                 {
                      if (game::board_2d[i][tempCol] == 1)
                 {
-                    p1++;
-                    p2 = 0;
+                    score1++;
+                    score2 = 0;
                 }
 
                else
                      if (game::board_2d[i][tempCol] == 2)
                 {
-                    p2++;
-                    p1 = 0;
+                    score2++;
+                    score1 = 0;
                 }
                  else
                      if (game::board_2d[i][tempCol] == 0)
                 {
-                    p2 = 0;
-                    p1 = 0;
+                    score2 = 0;
+                    score1 = 0;
                 }
                 tempCol++;
-                    if(p1 >= 5 || p2 >= 5)
+                    if(score1 >= 5 || score2 >= 5)
                     {
-                       score1 = p1;
-                       score2 = p2;
-                       break;
+                      return true;
                     }
 
-                }
-                return(score1 >= 5 || score2 >= 5);
+            }     return false;
             }
 
 
-            bool game::Backward_diagCheck()
+            bool game::Backward_diagCheck(int row, int col)
             {
              int score1 =0;
              int score2 =0;
-             int p1 = score1;
-             int p2 = score2;
 
-             int sRowB, sColB;  //The starting row and column of the backward diagonal check
-             int eRowB, eColB;  //The ending row and column of the backward diagonal check
+             int startRow = row;
+             int startCol = col;
 
-             sRowB = rowCheck;
-             sColB = colCheck;
-
-             eRowB = rowCheck;
-             eColB = colCheck;
+             int endRow = row;
+             int endCol= col;
 
              //checking back diagonal
-             while(sRowB > 0 && sColB < gamesize)
+             while(startRow > 0 && startCol < gamesize)
                 {
-                    sRowB--;  //to reach start row, decrement
-                    sColB++;  //increment coloumns
+                    startRow--;  //to reach start row, decrement
+                    startCol++;  //increment coloumns
 
                 }
 
              //finding end position.
-             while(eRowB < gamesize && eColB > 0)
+             while(endRow< gamesize && endCol> 0)
              {
-                   eRowB++;
-                   eColB--;
+                   endRow++;
+                   endCol--;
              }
 
             //using i so as to not overwrite ending row
-            int tempCol = sColB;
-            for(int i = sRowB; i < eRowB; i++)
+            int tempCol = startCol;
+            for(int i = startRow; i <= endRow; i++)
                 {
                      if (game::board_2d[i][tempCol] == 1)
                 {
@@ -415,41 +346,33 @@ using namespace std;
                 }
                 tempCol --;
 
-                  if(p1 >= 5 || p2 >= 5)
+                  if(score1 >= 5 || score2 >= 5)
                     {
-                       score1 = p1;
-                       score2 = p2;
-                       break;
+                      return true;
                     }
 
-                }
-                return(score1 >= 5 || score2 >= 5);
+            }     return false;
             }
 
-        bool game::CheckWin()
+        bool game::CheckWin(int row, int col)
         {
-          if(Row_Win())
+          if(Row_Win(row))
             {
                 return true;
             }
-          else if(Col_Win())
+          else if(Col_Win(col))
             {
                 return true;
             }
-          else if(Forward_diagCheck())
+          else if(Forward_diagCheck(row,col))
             {
                 return true;
             }
-          else if(Backward_diagCheck())
+          else if(Backward_diagCheck(row,col))
             {
                 return true;
             }
-          else
-            {
+
                 return false;
-            }
-        }
-
-
-
+         }
 
