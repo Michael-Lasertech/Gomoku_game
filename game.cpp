@@ -66,7 +66,7 @@ using namespace std;
      }
 
 
-        void game::Algae1(int len)
+        void game::Alg1(int len)
         {   srand(time(0));
             bool cellSet = false;
             while (!cellSet)
@@ -85,44 +85,40 @@ using namespace std;
           }
         }
 
-     void game::Algae2(int len)
-     {
-        {
-         srand(time(0));
-         int i = 0;
-         int j = rand() % len;
-         bool cellSet = false;
-         while (!cellSet)
-         {
-           while(i >= len)
+
+
+      void game::Alg2(int len)
+      {   srand(time(0));
+          int approach = 1;
+          int choice = 0;
+          int moves = 0;
+          int i;
+          int j;
+
+          bool cellSet = false;
+          while (!cellSet)
+
+          {
+
+          while(choice >= len)
            {
-             j = rand() % len;
-             i = 0;
-           }
+            choice = 0;
 
-           if (game::board_2d[i][j] == 0)
-            {
-                game::board_2d[i][j] = 2;
-                setRow(i);
-                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
-
-                cellSet = true;
+            if(moves > 3){
+                approach++;
+                if(approach > 3)
+                    {
+                        approach = 1;
+                    }
             }
-            i++;
 
-          }
-        }
-     }
+             switch (approach)
+             {
+             case 1:
+             {
 
-
-     void game::TestAlg(int len)
-
-         {  srand(time(0));
-            bool cellSet = false;
-            while (!cellSet)
-         {
-            int i = rand() % len;
-            int j = rand() % len;
+             i = rand() % len;
+             j = rand() % len;
 
             if (game::board_2d[i][j] == 0)
             {
@@ -132,8 +128,82 @@ using namespace std;
 
                 cellSet = true;
             }
+
+             moves++;
+             break;
+             }
+
+             case 2:
+             {
+             j = rand() % len;
+
+           if (game::board_2d[choice][j] == 0)
+            {
+                game::board_2d[choice][j] = 2;
+                setRow(choice);
+                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+
+                cellSet = true;
+            }
+
+             moves++;
+             break;
+             }
+
+             case 3:
+               {
+                i = rand() % len;
+
+               if (game::board_2d[i][choice] == 0)
+              {
+                game::board_2d[i][choice] = 2;
+                setRow(i);
+                setCol(choice); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+
+                cellSet = true;
+               }
+             moves++;
+             break;
+               }
+             }
+           }
+
+            choice++;
+
           }
-        }
+      }
+
+//     void game::Alg3(int len)
+//     {
+//        {
+//         srand(time(0));
+//         int i = 0;
+//         int j = rand() % len;
+//         bool cellSet = false;
+//         while (!cellSet)
+//         {
+//           while(i >= len)
+//           {
+//             j = rand() % len;
+//             i = 0;
+//           }
+//
+//           if (game::board_2d[i][j] == 0)
+//            {
+//                game::board_2d[i][j] = 2;
+//                setRow(i);
+//                setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+//
+//                cellSet = true;
+//            }
+//            i++;
+//
+//          }
+//        }
+//     }
+
+
+
 
 
       bool game::Row_Win(int len){
@@ -299,10 +369,10 @@ using namespace std;
              int eRowB, eColB;  //The ending row and column of the backward diagonal check
 
              sRowB = rowCheck;
-             sRowB = colCheck;
+             sColB = colCheck;
 
              eRowB = rowCheck;
-             eRowB = colCheck;
+             eColB = colCheck;
 
              //checking back diagonal
              while(sRowB > 0 && sColB < len)
