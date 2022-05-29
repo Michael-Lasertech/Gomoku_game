@@ -1,35 +1,94 @@
 // <2382971>
 
 #include <iostream>
+#include <fstream>
 #include "game.h"
 
 using namespace std;
 
-int main()
+void process(int gamesize, int loops)
 {
-    game instantiate;
-    double array_2[15][15];
+ int init = 0;
+ int alg1wins= 0;
+ int alg2wins =0;
 
-    int length = 6;
+ while (init <= loops){
+ game gameboard;
+ ofstream dataOut("output.txt");
 
-    int MAX =  length * length;
+    cout << "size=" << gamesize << endl;
+    int max_moves =  gamesize * gamesize;
 
-    instantiate.CreateBoard(array_2, length);
+    gameboard.CreateBoard(gamesize);
 
     int moves = 0;
-    while(moves < MAX)
+    while(moves < max_moves)
     {
-        instantiate.Algae1(length);
-        instantiate.CheckWin(length);
+        gameboard.Algae1(gamesize);
+        cout << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg1" << endl;
+
+        if(gameboard.CheckWin(gamesize))
+        {
+
+          cout << "win=alg1" << endl;
+          alg1wins++;
+          //dataOut << "Player1 won" << endl;
+          break;
+        }
         moves++;
-        instantiate.Algae2(length);
-        instantiate.CheckWin(length);
+        //gameboard.Algae2(gamesize);
+        gameboard.TestAlg(gamesize);
+        cout << "r" << gameboard.getRow() << "c" << gameboard.getCol() << " Alg2" << endl;
+
+        if(gameboard.CheckWin(gamesize))
+        {
+          cout << "win=alg2" << endl;
+          alg2wins++;
+          //dataOut << "Player2 won" << endl;
+
+          break;
+        }
         moves++;
     }
 
-    cout << "\n";
-    instantiate.ShowBoard(array_2,length);
+    if(!gameboard.CheckWin(gamesize))
+        {
+          cout << "Game Drawn" << endl;
+        }
 
+    cout << "\n";
+    gameboard.ShowBoard(gamesize);
+
+    init++;
+ }
+
+    cout <<"\n";
+    cout << "wins alg1=" << alg1wins;
+    cout << "wins alg2=" << alg2wins;
+
+}
+
+
+int main()
+{
+    ifstream dataIn("input.txt");
+
+
+    int sizeIn;
+    int loops =0;
+
+    while(dataIn >> sizeIn)
+    {
+         while(dataIn >> sizeIn)
+         {
+            loops++;
+         }
+
+         process(sizeIn,loops);
+         cout << "\n";
+
+    }
+    dataIn.close();
 
     return 0;
 }
