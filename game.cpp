@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+
 
 using namespace std;
 
@@ -40,6 +42,7 @@ using namespace std;
 
      void game::CreateBoard(int len)
      {
+         game::gamesize = len;
          for(int i = 0; i < len; i++)
          {
             for(int j =0; j < len; j++)
@@ -66,7 +69,7 @@ using namespace std;
      }
 
 
-        void game::Alg1(int len)
+        void game::Alg1(int len, std :: ofstream &dataOut)
         {   srand(time(0));
             bool cellSet = false;
             while (!cellSet)
@@ -79,6 +82,7 @@ using namespace std;
                 game::board_2d[i][j] = 1;
                 setRow(i);
                 setCol(j); //After successfully generating a spot to place our 1, we then store coordinates to perform a check
+                dataOut << "did data out r" << getRow() << "c" << getCol() << " Alg1" << endl;
 
                 cellSet = true;
             }
@@ -257,38 +261,34 @@ using namespace std;
         {
            int score1 =0;
            int score2 =0;
-           int p1 = score1;
-           int p2 = score2;
 
             // 5 in a column
             for(int i = 0; i < len ; i++)
             {
                if (game::board_2d[i][colCheck] == 1)
                 {
-                    p1++;
-                    p2 = 0;
+                    score1++;
+                    score2 = 0;
                 }
 
                else
                      if (game::board_2d[i][colCheck] == 2)
                 {
-                    p2++;
-                    p1 = 0;
+                    score2++;
+                     score1 = 0;
                 }
                 else
                      if (game::board_2d[i][colCheck] == 0)
                 {
-                    p2 = 0;
-                    p1 = 0;
+                    score2 =0;
+                    score1 = 0;
                 }
-                if(p1 >= 5 || p2 >= 5)
+                if(score1 >= 5 || score2 >= 5)
                     {
-                       score1 = p1;
-                       score2 = p2;
-                       break;
+                      return true;
                     }
 
-            }     return(score1 >= 5 || score2 >= 5);
+            }     return false;
 
         }
 
@@ -369,10 +369,10 @@ using namespace std;
              int eRowB, eColB;  //The ending row and column of the backward diagonal check
 
              sRowB = rowCheck;
-             sRowB = colCheck;
+             sColB = colCheck;
 
              eRowB = rowCheck;
-             eRowB = colCheck;
+             eColB = colCheck;
 
              //checking back diagonal
              while(sRowB > 0 && sColB < len)

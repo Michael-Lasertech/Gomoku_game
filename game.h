@@ -2,7 +2,10 @@
 
 #ifndef GAME_H
 #define GAME_H
+#include <fstream>
+#include <iostream>
 
+using namespace std;
 
 class game
 {
@@ -12,7 +15,7 @@ class game
 
       void CreateBoard(int len);     //Used to create a board for the game
       void ShowBoard(int len);
-      void Alg1(int len);
+      void Alg1(int len, std::ofstream &dataOut);
       void Alg2(int len);
 
       bool CheckWin (int len);
@@ -33,6 +36,7 @@ class game
       int colPlay;
       int rowCheck;    //storage for a row
       int colCheck;    //storage for a column
+      int gamesize;
 
       bool Row_Win(int len);
       bool Col_Win(int len);
